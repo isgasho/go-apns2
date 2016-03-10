@@ -19,9 +19,9 @@ const (
 
 func main() {
 
-	var deviceToken = ""
-	var p12Filename = ""
-	var password = ""
+	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
+	var p12Filename = "certs/PushChatKey.p12"
+	var password = "pushchat"
 
 	// POST URL
 	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)

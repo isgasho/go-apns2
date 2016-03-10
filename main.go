@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -24,7 +25,7 @@ func main() {
 	// POST URL
 	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
 
-	// Setup payload
+	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
 	cert, key, err := readFile(filename, password)
@@ -41,6 +42,7 @@ func main() {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{t},
 	}
+
 	config.BuildNameToCertificate()
 	transport := &http.Transport{TLSClientConfig: config}
 
@@ -48,21 +50,37 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Create http client
+	// Create http client with Transport with Go 1.6 Transport supports HTTP/2
 	client := &http.Client{Transport: transport}
 
+	// Sending the request with valid PAYLOAD (must starts with aps)
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Send JSON Header
+	// TODO
 	req.Header.Set("Content-Type", "application/json")
 
+	// Do the request
 	resp, err := client.Do(req)
-
-	fmt.Printf("resp %v", resp)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer resp.Body.Close()
+
+	// Read the response
+	fmt.Println(resp.Status)
+	fmt.Println(resp.StatusCode)
+	fmt.Println(resp)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s\n", string(body))
 }

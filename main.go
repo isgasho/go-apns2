@@ -21,6 +21,12 @@ func main() {
 	var filename = "certs/PushChatKey.p12"
 	var password = "pushchat"
 
+	// POST URL
+	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
+
+	// Setup payload
+	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+
 	cert, key, err := readFile(filename, password)
 	if err != nil {
 		log.Fatal(err)
@@ -32,8 +38,6 @@ func main() {
 		Leaf:        cert,
 	}
 
-	// Create http client
-
 	config := &tls.Config{
 		Certificates: []tls.Certificate{t},
 	}
@@ -44,21 +48,20 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Create http client
 	client := &http.Client{Transport: transport}
-
-	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
-
-	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
-		fmt.Printf("NewRequest error %s", err)
+		log.Fatal(err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
+
 	fmt.Printf("resp %v", resp)
+
 	if err != nil {
 		log.Fatal(err)
 	}

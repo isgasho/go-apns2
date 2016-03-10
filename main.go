@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/http2"
 )
 
+// Apple APNS 2
 const (
 	Development = "https://api.development.push.apple.com"
 	Production  = ""
@@ -18,9 +19,9 @@ const (
 
 func main() {
 
-	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
-	var filename = "certs/PushChatKey.p12"
-	var password = "pushchat"
+	var deviceToken = ""
+	var p12Filename = ""
+	var password = ""
 
 	// POST URL
 	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
@@ -28,7 +29,7 @@ func main() {
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
-	cert, key, err := readFile(filename, password)
+	cert, key, err := readP12File(p12Filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/pkcs12"
 )
 
-func readFile(filename string, password string) (*x509.Certificate, *rsa.PrivateKey, error) {
+func readP12File(filename string, password string) (*x509.Certificate, *rsa.PrivateKey, error) {
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, nil, fmt.Errorf("Error while loading %s: %v", filename, err)

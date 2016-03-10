@@ -10,6 +10,11 @@ import (
 	"golang.org/x/net/http2"
 )
 
+const (
+	Development = "https://api.development.push.apple.com"
+	Production  = ""
+)
+
 func main() {
 
 	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
@@ -41,9 +46,9 @@ func main() {
 
 	client := &http.Client{Transport: transport}
 
-	url := fmt.Sprintf("%v/3/device/%v", "https://api.development.push.apple.com", deviceToken)
+	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
 
-	payload := []byte(`{ "aps" : { "alert" : "Hello world", "badge" : "10" } }`)
+	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {

@@ -2,17 +2,15 @@ package main
 
 import (
 	"bytes"
-	"crypto/rsa"
 	"crypto/tls"
-	"crypto/x509"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"net/http"
-	"strconv"
 	"time"
 
-	"golang.org/x/crypto/pkcs12"
+	"github.com/RobotsAndPencils/buford/payload/badge"
+
 	"golang.org/x/net/http2"
 )
 
@@ -41,12 +39,44 @@ type Headers struct {
 	Topic string
 }
 
+// APS is Apple's reserved namespace.
 type APS struct {
+	// Alert dictionary.
 	Alert Alert
+
+	// Badge to display on the app icon.
+	// Set to badge.Preserve (default), badge.Clear
+	// or a specific value with badge.New(n).
+	Badge badge.Badge
+
+	// The name of a sound file to play as an alert.
+	Sound string
+
+	// Content available for silent notifications.
+	// With no alert, sound, or badge.
+	ContentAvailable bool
+
+	// Category identifier for custom actions in iOS 8 or newer.
+	Category string
 }
 
+// Alert dictionary.
 type Alert struct {
-	Body string `json:"body,omitempty"`
+	// Title is a short string shown briefly on Apple Watch in iOS 8.2 or newer.
+	Title        string   `json:"title,omitempty"`
+	TitleLocKey  string   `json:"title-loc-key,omitempty"`
+	TitleLocArgs []string `json:"title-loc-args,omitempty"`
+
+	// Body text of the alert message.
+	Body    string   `json:"body,omitempty"`
+	LocKey  string   `json:"loc-key,omitempty"`
+	LocArgs []string `json:"loc-args,omitempty"`
+
+	// Key for localized string for "View" button.
+	ActionLocKey string `json:"action-loc-key,omitempty"`
+
+	// Image file to be used when user taps or slides the action button.
+	LaunchImage string `json:"launch-image,omitempty"`
 }
 
 func main() {
@@ -54,111 +84,56 @@ func main() {
 	var filename = "certs/PushChatKey.p12"
 	var password = "pushchat"
 
-	// Load the .p12 file
-	p12, err := ioutil.ReadFile(filename)
-
+	cert, key, err := readFile(filename, password)
 	if err != nil {
-		fmt.Printf("Can't load %s: %v", filename, err)
+		log.Fatal(err)
 	}
 
-	// Decode the .p12 file
-	privateKey, cert, err := pkcs12.Decode(p12, password)
+	//fmt.Printf("cert %v key %s", cert, key)
 
-	if err != nil {
-		fmt.Printf("Can't decode %v", err)
-	}
-
-	// Perform a verification check if certificate is valid
-	_, err = cert.Verify(x509.VerifyOptions{})
-	if err != nil {
-		fmt.Printf("Error while verifying: %v", err)
-	}
-
-	switch e := err.(type) {
-	case x509.CertificateInvalidError:
-		switch e.Reason {
-		case x509.Expired:
-			fmt.Println("expired")
-		default:
-			fmt.Printf("error %v", err)
-		}
-	case x509.UnknownAuthorityError:
-		fmt.Println("UnknownAuthorityError")
-	default:
-	}
-
-	// assert that private key is RSA
-	priv, ok := privateKey.(*rsa.PrivateKey)
-	fmt.Println("priv ", priv)
-	if !ok {
-		fmt.Println("ok: ", ok)
-	}
-
-	//get cert, prev
-
-	// Create certification
 	t := tls.Certificate{
 		Certificate: [][]byte{cert.Raw},
-		PrivateKey:  priv,
+		PrivateKey:  key,
 		Leaf:        cert,
 	}
+
+	// Create http client
 
 	config := &tls.Config{
 		Certificates: []tls.Certificate{t},
 	}
-
 	config.BuildNameToCertificate()
 	transport := &http.Transport{TLSClientConfig: config}
 
 	if err := http2.ConfigureTransport(transport); err != nil {
-		fmt.Println("err: ", err)
+		fmt.Printf("error %s", err)
 	}
 
-	// create new client
 	client := &http.Client{Transport: transport}
 
-	//fmt.Println("client: ", client)
+	url := fmt.Sprintf("%v/3/device/%v", "https://api.development.push.apple.com", deviceToken)
 
-	//send data
-	urlStr := fmt.Sprintf("%v/3/device/%v", "https://api.development.push.apple.com", deviceToken)
-	fmt.Println("urlStr: ", urlStr)
-	//
 	payload := APS{
 		Alert: Alert{Body: "test message"},
 	}
+
+	fmt.Println("json payload", payload)
 
 	b, err := json.Marshal(payload)
 
 	fmt.Println("json payload", b)
 
-	req, err := http.NewRequest("POST", urlStr, bytes.NewReader(b))
+	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
-		fmt.Println("error POST", err)
+		fmt.Printf("NewRequest error %s", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("apns-priority", "5")
-	req.Header.Set("apns-expiration", strconv.FormatInt(time.Now().Unix(), 10))
 
 	resp, err := client.Do(req)
-
 	if err != nil {
-		fmt.Println("error client", err)
+		fmt.Printf("Client error %s", err)
 	}
 
-	//defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusOK {
-		fmt.Println("header ", resp.Header)
-		fmt.Println("apns-id", resp.Header.Get("apns-id"))
-
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var response response
-	json.Unmarshal(body, &response)
-
-	fmt.Println("response", &response)
-
+	fmt.Printf("resp %v", resp)
 }

@@ -23,7 +23,7 @@ func readFile(filename string, password string) (*x509.Certificate, *rsa.Private
 
 	// Verify the certification
 	_, err = cert.Verify(x509.VerifyOptions{})
-	if err != nil {
+	if err == nil {
 		return nil, nil, err
 	}
 
@@ -31,14 +31,15 @@ func readFile(filename string, password string) (*x509.Certificate, *rsa.Private
 	case x509.CertificateInvalidError:
 		switch e.Reason {
 		case x509.Expired:
-			return nil, nil, err
+			fmt.Println("Expired")
 		default:
 		}
 	case x509.UnknownAuthorityError:
-		return nil, nil, err
+		fmt.Println("UnknownAuthorityError")
 	default:
 	}
 
+	// check if private key is correct
 	priv, b := privateKey.(*rsa.PrivateKey)
 	if !b {
 		return nil, nil, fmt.Errorf("Error with private key")

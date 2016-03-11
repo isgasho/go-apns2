@@ -9,12 +9,8 @@ import (
 	"net/http"
 
 	"github.com/sger/go-apns2/certificate"
+	"github.com/sger/go-apns2/client"
 	"golang.org/x/net/http2"
-)
-
-const (
-	Development = "https://api.development.push.apple.com"
-	Production  = ""
 )
 
 func main() {
@@ -24,7 +20,7 @@ func main() {
 	var password = "pushchat"
 
 	// POST URL
-	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
+	url := fmt.Sprintf("%v/3/device/%v", client.Development, deviceToken)
 
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)

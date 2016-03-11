@@ -10,7 +10,6 @@ import (
 
 	"github.com/sger/go-apns2/certificate"
 	"github.com/sger/go-apns2/client"
-	"golang.org/x/net/http2"
 )
 
 func main() {
@@ -30,13 +29,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	t := tls.Certificate{
+	certificate := tls.Certificate{
 		Certificate: [][]byte{cert.Raw},
 		PrivateKey:  key,
 		Leaf:        cert,
 	}
 
-	config := &tls.Config{
+	// Config
+	/*config := &tls.Config{
 		Certificates: []tls.Certificate{t},
 	}
 
@@ -49,6 +49,9 @@ func main() {
 
 	// Create http client with Transport with Go 1.6 Transport supports HTTP/2
 	client := &http.Client{Transport: transport}
+	//*/
+
+	client, err := client.NewClient(certificate)
 
 	// Sending the request with valid PAYLOAD (must starts with aps)
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
@@ -61,7 +64,7 @@ func main() {
 	req.Header.Set("Content-Type", "application/json")
 
 	// Do the request
-	resp, err := client.Do(req)
+	resp, err := client.HTTPClient.Do(req)
 
 	if err != nil {
 		log.Fatal(err)

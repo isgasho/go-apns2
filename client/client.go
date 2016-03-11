@@ -7,17 +7,19 @@ import (
 	"golang.org/x/net/http2"
 )
 
-// APNS
+// Apple endpoints
 const (
 	Development = "https://api.development.push.apple.com"
 	Production  = "https://api.push.apple.com"
 )
 
+// Client struct with HTTPClient and Certificate as parameters
 type Client struct {
 	HTTPClient  *http.Client
 	Certificate tls.Certificate
 }
 
+// NewClient constructor tls.Certificate parameter
 func NewClient(certificate tls.Certificate) (*Client, error) {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{certificate},

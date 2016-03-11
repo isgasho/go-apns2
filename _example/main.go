@@ -51,7 +51,12 @@ func main() {
 	client := &http.Client{Transport: transport}
 	//*/
 
+	// Setup a new http client
 	client, err := client.NewClient(certificate)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Sending the request with valid PAYLOAD (must starts with aps)
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))

@@ -35,22 +35,6 @@ func main() {
 		Leaf:        cert,
 	}
 
-	// Config
-	/*config := &tls.Config{
-		Certificates: []tls.Certificate{t},
-	}
-
-	config.BuildNameToCertificate()
-	transport := &http.Transport{TLSClientConfig: config}
-
-	if err := http2.ConfigureTransport(transport); err != nil {
-		log.Fatal(err)
-	}
-
-	// Create http client with Transport with Go 1.6 Transport supports HTTP/2
-	client := &http.Client{Transport: transport}
-	//*/
-
 	// Setup a new http client
 	client, err := client.NewClient(certificate)
 

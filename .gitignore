@@ -1,2 +1,2 @@
 /_example/certs/*
-_example/_example
+_example/*.o

@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Setup a new http client
-	client, err := client.NewClient(certificate)
+	client, err := client.New(certificate)
 
 	if err != nil {
 		log.Fatal(err)

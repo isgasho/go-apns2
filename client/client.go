@@ -19,8 +19,8 @@ type Client struct {
 	Certificate tls.Certificate
 }
 
-// NewClient constructor tls.Certificate parameter
-func NewClient(certificate tls.Certificate) (*Client, error) {
+// New constructor tls.Certificate parameter
+func New(certificate tls.Certificate) (*Client, error) {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{certificate},
 	}

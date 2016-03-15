@@ -15,7 +15,7 @@ func main() {
 
 	payloads := [][]byte{}
 
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 10; i++ {
 		message := fmt.Sprintf("Hello World %v!", i)
 		payload := []byte(`{ "aps" : { "alert" : "` + message + `" } }`)
 		payloads = append(payloads, payload)
@@ -70,7 +70,7 @@ func asyncHTTPPosts(payloads [][]byte) []*http.Response {
 	for {
 		select {
 		case resp := <-ch:
-			fmt.Printf("%T was fetched\n", resp)
+			fmt.Printf("%v was received \n", resp)
 			responses = append(responses, resp)
 			if len(responses) == len(payloads) {
 				return responses

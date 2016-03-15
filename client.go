@@ -57,7 +57,7 @@ func (c *Client) Send(payload []byte, deviceToken string, headers *Headers) (*ht
 	}
 
 	// Send JSON Headers
-	req.Header.Set("Content-Type", "application/json")
+	headers.Set(req.Header)
 
 	// Do the request
 	resp, err := c.HTTPClient.Do(req)

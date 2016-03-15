@@ -16,10 +16,13 @@ type Headers struct {
 
 // Set request headers
 func (h *Headers) Set(header http.Header) {
+
+	header.Set("Content-Type", "application/json")
+
 	if h.ID != "" {
 		header.Set(ApnsID, h.ID)
 	}
-	if h.Expiration.IsZero() {
+	if !h.Expiration.IsZero() {
 		header.Set(ApnsExpiration, strconv.FormatInt(h.Expiration.Unix(), 10))
 	}
 	if h.LowPriority {

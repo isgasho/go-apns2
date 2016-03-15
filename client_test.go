@@ -14,7 +14,7 @@ import (
 func TestPush(t *testing.T) {
 	deviceToken := "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
 	payload := []byte(`{ "aps" : { "alert" : "Hello World" } }`)
-	apnsID := "922D9F1F-B82E-B337-EDC9-DB4FC8527676"
+	apnsID := "674EB1D5-7E7C-3DC9-B0F5-32A55E54960E"
 
 	handler := http.NewServeMux()
 	server := httptest.NewServer(handler)
@@ -45,7 +45,9 @@ func TestPush(t *testing.T) {
 		t.Error(err)
 	}
 
-	if resp.StatusCode == http.StatusOK {
-		fmt.Println(resp.Header.Get("apns-id"))
+	remoteApnsID := resp.Header.Get("apns-id")
+
+	if remoteApnsID != apnsID {
+		t.Errorf("Expected apns-id %q, but got %q ", apnsID, remoteApnsID)
 	}
 }

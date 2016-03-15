@@ -1,8 +1,9 @@
 # go-apns2
+	This project is under heavy development
 
 [![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
 
-Simple package for HTTP/2 [Apple Push Notification Service](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html)
+Simple package for HTTP/2 [Apple Push Notification Service](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html).
 
 ## Installation
 
@@ -59,7 +60,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Read the response
+	// Print the response
 	fmt.Println(resp)
 
 	body, err := ioutil.ReadAll(resp.Body)

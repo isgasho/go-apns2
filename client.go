@@ -10,7 +10,7 @@ import (
 	"golang.org/x/net/http2"
 )
 
-// Apple end points
+// Apple Development and Production URLs
 const (
 	Development = "https://api.development.push.apple.com"
 	Production  = "https://api.push.apple.com"

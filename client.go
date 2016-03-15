@@ -44,6 +44,7 @@ func NewClient(certificate tls.Certificate) (*Client, error) {
 	return client, nil
 }
 
+// Send a push notification with payload []byte and device token
 func (c *Client) Send(payload []byte, deviceToken string) (*http.Response, error) {
 
 	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)

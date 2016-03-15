@@ -71,7 +71,7 @@ func asyncHTTPPosts(payloads [][]byte) []*http.Response {
 	for {
 		select {
 		case resp := <-ch:
-			fmt.Printf("%s was fetched\n", resp)
+			fmt.Printf("%T was fetched\n", resp)
 			responses = append(responses, resp)
 			if len(responses) == len(payloads) {
 				return responses

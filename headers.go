@@ -7,14 +7,14 @@ import (
 )
 
 // Header request headers for apple push notification
-type Header struct {
+type Headers struct {
 	ID          string
 	Expiration  time.Time
 	LowPriority bool
 	Topic       string
 }
 
-func (h *Header) Set(header http.Header) {
+func (h *Headers) Set(header http.Header) {
 	header.Set(ApnsID, h.ID)
 	header.Set(ApnsExpiration, strconv.FormatInt(h.Expiration.Unix(), 10))
 	header.Set(ApnsPriority, "5")

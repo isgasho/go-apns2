@@ -36,7 +36,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	resp, err := client.Send(payload, deviceToken)
+	resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)

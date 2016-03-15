@@ -59,7 +59,7 @@ func asyncHTTPPosts(payloads [][]byte) []*http.Response {
 	for _, payload := range payloads {
 		go func(payload []byte) {
 			fmt.Printf("Sending %s \n", payload)
-			resp, err := client.Send(payload, deviceToken)
+			resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
 			if err != nil {
 				log.Fatal(err)
 			}

@@ -40,7 +40,7 @@ func TestPush(t *testing.T) {
 		Host:       server.URL,
 	}
 
-	resp, err := client.Send(payload, deviceToken)
+	resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
 	if err != nil {
 		t.Error(err)
 	}

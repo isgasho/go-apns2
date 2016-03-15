@@ -44,8 +44,6 @@ func main() {
 	}
 
 	// Read the response
-	fmt.Println(resp.Status)
-	fmt.Println(resp.StatusCode)
 	fmt.Println(resp)
 
 	body, err := ioutil.ReadAll(resp.Body)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"fmt"
 	"log"
 
 	"github.com/sger/go-apns2"
@@ -35,5 +36,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	client.Send(payload, deviceToken)
+	resp, err := client.Send(payload, deviceToken)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(resp)
 }

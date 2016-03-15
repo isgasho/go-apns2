@@ -1,5 +1,5 @@
 # go-apns2
-	This project is under heavy development
+	This project is under development
 
 [![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
 

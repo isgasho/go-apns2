@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Header request headers for apple push notification
+// Headers request headers for apple push notification
 type Headers struct {
 	ID          string
 	Expiration  time.Time
@@ -14,9 +14,18 @@ type Headers struct {
 	Topic       string
 }
 
+// Set request headers
 func (h *Headers) Set(header http.Header) {
-	header.Set(ApnsID, h.ID)
-	header.Set(ApnsExpiration, strconv.FormatInt(h.Expiration.Unix(), 10))
-	header.Set(ApnsPriority, "5")
-	header.Set(ApnsTopic, h.Topic)
+	if h.ID != "" {
+		header.Set(ApnsID, h.ID)
+	}
+	if h.Expiration.IsZero() {
+		header.Set(ApnsExpiration, strconv.FormatInt(h.Expiration.Unix(), 10))
+	}
+	if h.LowPriority {
+		header.Set(ApnsPriority, "5")
+	}
+	if h.Topic != "" {
+		header.Set(ApnsTopic, h.Topic)
+	}
 }

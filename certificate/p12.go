@@ -32,12 +32,10 @@ func ReadFile(filename string, password string) (*x509.Certificate, *rsa.Private
 	case x509.CertificateInvalidError:
 		switch e.Reason {
 		case x509.Expired:
-			fmt.Println("Expired")
 			// TODO Better support for error
 		default:
 		}
 	case x509.UnknownAuthorityError:
-		fmt.Println("UnknownAuthorityError")
 		// TODO Better support for error
 	default:
 	}

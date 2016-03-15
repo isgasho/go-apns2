@@ -1,7 +1,10 @@
-package client
+package apns2
 
 import (
+	"bytes"
 	"crypto/tls"
+	"fmt"
+	"log"
 	"net/http"
 
 	"golang.org/x/net/http2"
@@ -19,8 +22,8 @@ type Client struct {
 	Certificate tls.Certificate
 }
 
-// New constructor tls.Certificate parameter
-func New(certificate tls.Certificate) (*Client, error) {
+// NewClient constructor tls.Certificate parameter
+func NewClient(certificate tls.Certificate) (*Client, error) {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{certificate},
 	}
@@ -39,4 +42,31 @@ func New(certificate tls.Certificate) (*Client, error) {
 	}
 
 	return client, nil
+}
+
+func (c *Client) Send(payload []byte, deviceToken string) (*http.Response, error) {
+
+	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
+
+	// Sending the request with valid PAYLOAD (must starts with aps)
+
+	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Send JSON Header
+	// TODO
+	req.Header.Set("Content-Type", "application/json")
+
+	// Do the request
+	resp, err := c.HTTPClient.Do(req)
+
+	if err != nil {
+		return resp, err
+	}
+
+	defer resp.Body.Close()
+
+	return resp, nil
 }

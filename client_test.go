@@ -37,6 +37,7 @@ func TestPush(t *testing.T) {
 
 	client := apns2.Client{
 		HTTPClient: http.DefaultClient,
+		Host:       server.URL,
 	}
 
 	resp, err := client.Send(payload, deviceToken)

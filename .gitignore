@@ -2,7 +2,12 @@
 _example/*.o
 _example/*.a
 _example/*.so
-
+_example/basic/*.o
+_example/basic/*.a
+_example/basic/*.so
+_example/channels/*.o
+_example/channels/*.a
+_example/channels/*.so
 *.o
 *.a
 *.so

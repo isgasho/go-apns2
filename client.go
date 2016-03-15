@@ -69,6 +69,10 @@ func (c *Client) Send(payload []byte, deviceToken string) (*http.Response, error
 		return resp, err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		defer resp.Body.Close()
+	}
+
 	defer resp.Body.Close()
 
 	return resp, nil

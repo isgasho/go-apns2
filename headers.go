@@ -22,12 +22,16 @@ func (h *Headers) Set(header http.Header) {
 	if h.ID != "" {
 		header.Set(ApnsID, h.ID)
 	}
+
 	if !h.Expiration.IsZero() {
-		header.Set(ApnsExpiration, strconv.FormatInt(h.Expiration.Unix(), 10))
+		timestamp := strconv.FormatInt(h.Expiration.Unix(), 10)
+		header.Set(ApnsExpiration, timestamp)
 	}
+
 	if h.LowPriority {
 		header.Set(ApnsPriority, "5")
 	}
+
 	if h.Topic != "" {
 		header.Set(ApnsTopic, h.Topic)
 	}

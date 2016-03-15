@@ -13,14 +13,13 @@ import (
 
 func main() {
 
-	payload1 := []byte(`{ "aps" : { "alert" : "Hello world 1" } }`)
-	payload2 := []byte(`{ "aps" : { "alert" : "Hello world 2" } }`)
-	payload3 := []byte(`{ "aps" : { "alert" : "Hello world 3" } }`)
-	payload4 := []byte(`{ "aps" : { "alert" : "Hello world 4" } }`)
-	payload5 := []byte(`{ "aps" : { "alert" : "Hello world 5" } }`)
-	payload6 := []byte(`{ "aps" : { "alert" : "Hello world 6" } }`)
+	payloads := [][]byte{}
 
-	payloads := [][]byte{payload1, payload2, payload3, payload4, payload5, payload6}
+	for i := 0; i < 20; i++ {
+		message := fmt.Sprintf("Hello World %v!", i)
+		payload := []byte(`{ "aps" : { "alert" : "` + message + `" } }`)
+		payloads = append(payloads, payload)
+	}
 
 	results := asyncHTTPPosts(payloads)
 	for _, result := range results {

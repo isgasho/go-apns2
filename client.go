@@ -20,10 +20,11 @@ const (
 type Client struct {
 	HTTPClient  *http.Client
 	Certificate tls.Certificate
+	Host        string
 }
 
 // NewClient constructor tls.Certificate parameter
-func NewClient(certificate tls.Certificate) (*Client, error) {
+func NewClient(certificate tls.Certificate, host string) (*Client, error) {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{certificate},
 	}
@@ -39,6 +40,7 @@ func NewClient(certificate tls.Certificate) (*Client, error) {
 	client := &Client{
 		HTTPClient:  &http.Client{Transport: transport},
 		Certificate: certificate,
+		Host:        host,
 	}
 
 	return client, nil
@@ -47,7 +49,7 @@ func NewClient(certificate tls.Certificate) (*Client, error) {
 // Send a push notification with payload []byte and device token
 func (c *Client) Send(payload []byte, deviceToken string) (*http.Response, error) {
 
-	url := fmt.Sprintf("%v/3/device/%v", Development, deviceToken)
+	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
 
 	// Sending the request with valid PAYLOAD (must starts with aps)
 

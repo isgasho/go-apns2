@@ -50,7 +50,7 @@ func asyncHTTPPosts(payloads [][]byte) []*http.Response {
 	}
 
 	// Setup a new http client
-	client, err := apns2.NewClient(certificate)
+	client, err := apns2.NewClient(certificate, apns2.Development)
 
 	if err != nil {
 		log.Fatal(err)

@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"github.com/sger/go-apns2"
@@ -42,5 +43,16 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Read the response
+	fmt.Println(resp.Status)
+	fmt.Println(resp.StatusCode)
 	fmt.Println(resp)
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Body %s\n", string(body))
 }

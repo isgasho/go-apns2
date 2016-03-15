@@ -12,6 +12,14 @@ import (
 
 func main() {
 
+	//ch := make(chan *http.Response)
+	//responses := []*http.Response{}
+
+	/*
+		payloads := [][]byte{
+		payload,
+		payload}*/
+
 	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
 	var filename = "certs/PushChatKey.p12"
 	var password = "pushchat"

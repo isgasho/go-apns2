@@ -10,7 +10,7 @@ import (
 	"golang.org/x/net/http2"
 )
 
-// Apple endpoints
+// Apple end points
 const (
 	Development = "https://api.development.push.apple.com"
 	Production  = "https://api.push.apple.com"
@@ -51,15 +51,12 @@ func (c *Client) Send(payload []byte, deviceToken string) (*http.Response, error
 
 	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
 
-	// Sending the request with valid PAYLOAD (must starts with aps)
-
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Send JSON Header
-	// TODO
+	// Send JSON Headers
 	req.Header.Set("Content-Type", "application/json")
 
 	// Do the request

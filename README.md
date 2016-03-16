@@ -73,10 +73,9 @@ func main() {
 }
 ```
 
-## Status
-
-  - ◦ error handling
-  - ◦ payload struct
+## TODO
+- [ ] Error Handling
+- [ ] Payload Struct
 
 Author
 -----

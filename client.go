@@ -20,8 +20,10 @@ const (
 
 // ApnsResponse contains apns-id, reason
 type ApnsResponse struct {
-	ApnsID string `json:"apns-id,omitempty"`
-	Reason string `json:"reason,omitempty"`
+	StatusCode            int
+	StatusCodeDescription string
+	ApnsID                string `json:"apns-id,omitempty"`
+	Reason                string `json:"reason,omitempty"`
 }
 
 // ErrorResponse contains reason, timestamp
@@ -81,6 +83,8 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 	}
 
 	apnsResponse := ApnsResponse{}
+	apnsResponse.StatusCode = resp.StatusCode
+	apnsResponse.StatusCodeDescription = statusCode[resp.StatusCode]
 
 	if resp.StatusCode == http.StatusOK {
 		apnsResponse.ApnsID = resp.Header.Get("apns-id")

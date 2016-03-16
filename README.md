@@ -21,7 +21,6 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
 	"log"
 
 	"github.com/sger/go-apns2"
@@ -29,9 +28,9 @@ import (
 )
 
 func main() {
-	var deviceToken = ""
-	var filename = "key.p12"
-	var password = ""
+	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
+	var filename = "../certs/PushChatKey.p12"
+	var password = "pushchat"
 
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
@@ -54,22 +53,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
+	// Send the Push Notification
+	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Print the response
+	// returns apns-id if request is success
+	// otherwise returns error reason
 	fmt.Println(resp)
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("Body %s\n", string(body))
 }
 ```
 

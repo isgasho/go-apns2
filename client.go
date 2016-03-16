@@ -87,7 +87,7 @@ func (c *Client) Send(payload []byte, deviceToken string, headers *Headers) (*ht
 	return resp, nil
 }
 
-// Send a push notification with payload []byte and device token
+// SendPush a push notification with payload []byte and device token
 func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) (*ApnsResponse, error) {
 
 	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
@@ -107,10 +107,10 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 		return nil, err
 	}
 
-	output := ApnsResponse{}
+	apnsResponse := ApnsResponse{}
 
 	if resp.StatusCode == http.StatusOK {
-		output.ApnsID = resp.Header.Get("apns-id")
+		apnsResponse.ApnsID = resp.Header.Get("apns-id")
 	}
 
 	defer resp.Body.Close()
@@ -125,7 +125,9 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 	json.Unmarshal(body, &errorResponse)
 
 	if errorResponse.Reason != "" {
-		output.Reason = errorResponse.Reason
+		fmt.Println(errorReason[errorResponse.Reason])
+		fmt.Println(errorResponse.Timestamp)
+		apnsResponse.Reason = errorReason[errorResponse.Reason]
 	}
 
 	/*b, err := json.Marshal(output)
@@ -135,5 +137,5 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 		return nil, err
 	}*/
 
-	return &output, nil
+	return &apnsResponse, nil
 }

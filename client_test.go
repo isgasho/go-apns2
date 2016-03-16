@@ -40,12 +40,12 @@ func TestPush(t *testing.T) {
 		Host:       server.URL,
 	}
 
-	resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
+	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
 	if err != nil {
 		t.Error(err)
 	}
 
-	remoteApnsID := resp.Header.Get("apns-id")
+	remoteApnsID := resp.ApnsID
 
 	if remoteApnsID != apnsID {
 		t.Errorf("Expected apns-id %q, but got %q ", apnsID, remoteApnsID)

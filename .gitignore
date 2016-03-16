@@ -1,4 +1,5 @@
 /_example/certs/*
+**/*.go
 _example/*.o
 _example/*.a
 _example/*.so

@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
 	"log"
 
 	"github.com/sger/go-apns2"
@@ -16,6 +15,7 @@ func main() {
 	var password = "pushchat"
 
 	// Setup payload must contains an aps root label and alert message
+	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
 	cert, key, err := p12.ReadFile(filename, password)
@@ -36,7 +36,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	resp, err := client.Send(payload, deviceToken, &apns2.Headers{})
+	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)
@@ -44,12 +44,4 @@ func main() {
 
 	// Read the response
 	fmt.Println(resp)
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("Body %s\n", string(body))
 }

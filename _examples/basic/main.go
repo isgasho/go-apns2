@@ -15,7 +15,6 @@ func main() {
 	var password = "pushchat"
 
 	// Setup payload must contains an aps root label and alert message
-	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
 	cert, key, err := p12.ReadFile(filename, password)

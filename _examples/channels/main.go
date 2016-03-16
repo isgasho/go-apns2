@@ -23,7 +23,7 @@ func main() {
 	results := asyncHTTPPosts(payloads)
 	for _, result := range results {
 		if result != nil {
-			fmt.Printf("status: %s\n", result)
+			fmt.Println(result)
 		}
 	}
 }

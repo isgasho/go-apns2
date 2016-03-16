@@ -58,35 +58,6 @@ func NewClient(certificate tls.Certificate, host string) (*Client, error) {
 	return client, nil
 }
 
-// Send a push notification with payload []byte and device token
-func (c *Client) Send(payload []byte, deviceToken string, headers *Headers) (*http.Response, error) {
-
-	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
-
-	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Send JSON Headers
-	headers.Set(req.Header)
-
-	// Do the request
-	resp, err := c.HTTPClient.Do(req)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		defer resp.Body.Close()
-	}
-
-	defer resp.Body.Close()
-
-	return resp, nil
-}
-
 // SendPush a push notification with payload []byte and device token
 func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) (*ApnsResponse, error) {
 

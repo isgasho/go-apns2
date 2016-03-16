@@ -35,12 +35,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Send the Push Notification
 	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Read the response
+	// returns apns-id if request is success
+	// otherwise returns error reason
 	fmt.Println(resp)
 }

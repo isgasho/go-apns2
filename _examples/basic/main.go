@@ -17,7 +17,7 @@ func main() {
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 
-	cert, key, err := certificate.ReadFileP12(filename, password)
+	cert, key, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}

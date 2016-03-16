@@ -18,11 +18,13 @@ const (
 	Production  = "https://api.push.apple.com"
 )
 
+// ApnsResponse contains apns-id, reason
 type ApnsResponse struct {
 	ApnsID string `json:"apns-id,omitempty"`
 	Reason string `json:"reason,omitempty"`
 }
 
+// ErrorResponse contains reason, timestamp
 type ErrorResponse struct {
 	Reason    string `json:"reason,omitempty"`
 	Timestamp int64  `json:"timestamp,omitempty"`
@@ -58,7 +60,8 @@ func NewClient(certificate tls.Certificate, host string) (*Client, error) {
 	return client, nil
 }
 
-// SendPush a push notification with payload []byte and device token
+// SendPush a push notification with payload ([]byte), device token, *Headers
+// returns ApnsResponse
 func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) (*ApnsResponse, error) {
 
 	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
@@ -68,10 +71,9 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 		log.Fatal(err)
 	}
 
-	// Send JSON Headers
+	// Send headers
 	headers.Set(req.Header)
 
-	// Do the request
 	resp, err := c.HTTPClient.Do(req)
 
 	if err != nil {

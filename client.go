@@ -96,17 +96,8 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 	json.Unmarshal(body, &errorResponse)
 
 	if errorResponse.Reason != "" {
-		fmt.Println(errorReason[errorResponse.Reason])
-		fmt.Println(errorResponse.Timestamp)
 		apnsResponse.Reason = errorReason[errorResponse.Reason]
 	}
-
-	/*b, err := json.Marshal(output)
-
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}*/
 
 	return &apnsResponse, nil
 }

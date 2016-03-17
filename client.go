@@ -12,7 +12,7 @@ import (
 	"golang.org/x/net/http2"
 )
 
-// ApnsResponse contains apns-id, reason
+// ApnsResponse contains apns-id, reason, status code, status code description.
 type ApnsResponse struct {
 	StatusCode            int
 	StatusCodeDescription string
@@ -26,14 +26,14 @@ type ErrorResponse struct {
 	Timestamp int64  `json:"timestamp,omitempty"`
 }
 
-// Client struct with HTTPClient and Certificate as parameters
+// Client struct with HTTPClient, Certificate, Host as parameters.
 type Client struct {
 	HTTPClient  *http.Client
 	Certificate tls.Certificate
 	Host        string
 }
 
-// NewClient constructor tls.Certificate parameter
+// NewClient constructor tls.Certificate parameter.
 func NewClient(certificate tls.Certificate, host string) (*Client, error) {
 	config := &tls.Config{
 		Certificates: []tls.Certificate{certificate},

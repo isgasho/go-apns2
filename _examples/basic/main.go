@@ -44,6 +44,7 @@ func main() {
 
 	// returns apns-id if request is success
 	// otherwise returns error reason
-	// for example resp.ApnsID returns the apns id resp.Reason returns the error reason
+	// for example resp.ApnsID returns the apns id
+	// resp.Reason returns the error reason
 	fmt.Println(resp)
 }

@@ -1,10 +1,11 @@
 package apns2
 
-import (
-	"encoding/json"
-	"fmt"
-)
+import "encoding/json"
 
+// Payload For each notification, compose a JSON dictionary object (as defined by RFC 4627). This dictionary must contain another dictionary identified by the aps key. The aps dictionary can contain one or more properties that specify the following user notification types:
+// An alert message to display to the user
+// A number to badge the app icon with
+// A sound to play
 type Payload struct {
 	// If this property is included, the system displays a standard alert or a banner,
 	// based on the user’s setting.
@@ -31,15 +32,14 @@ type Payload struct {
 	Category string
 }
 
+// Map returns a valid payload
 func (p *Payload) Map() map[string]interface{} {
 	payload := make(map[string]interface{}, 4)
 
 	if !p.Alert.isValid() {
 		if p.Alert.isSimpleForm() {
-			fmt.Println(p.Alert.isSimpleForm())
 			payload["alert"] = p.Alert.Body
 		} else {
-			fmt.Println(p.Alert.isSimpleForm())
 			payload["alert"] = p.Alert
 		}
 	}
@@ -59,6 +59,7 @@ func (p *Payload) Map() map[string]interface{} {
 	return map[string]interface{}{"aps": payload}
 }
 
-func (a Payload) MarshalJSON() ([]byte, error) {
-	return json.Marshal(a.Map())
+// MarshalJSON returns []byte
+func (p Payload) MarshalJSON() ([]byte, error) {
+	return json.Marshal(p.Map())
 }

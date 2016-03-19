@@ -1,5 +1,7 @@
 package apns2
 
+// Alert If this property is included, the system displays a standard alert or a banner, based on the user’s setting.
+// You can specify a string or a dictionary as the value of alert.
 type Alert struct {
 	// A short string describing the purpose of the notification.
 	// Apple Watch displays this string as part of the notification interface.

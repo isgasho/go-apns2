@@ -22,13 +22,13 @@ func main() {
 
 	b, err := json.Marshal(p)
 	if err != nil {
-
+		log.Fatal(err)
 	}
 	fmt.Println(b)
 
 	// Setup payload must contains an aps root label and alert message
-	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
-	fmt.Println(payload)
+	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	//fmt.Println(payload)
 
 	cert, key, err := certificate.ReadP12File(filename, password)
 	if err != nil {

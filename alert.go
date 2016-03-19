@@ -43,10 +43,21 @@ type Alert struct {
 	LaunchImage string `json:"launch-image,omitempty"`
 }
 
-func (a *Alert) isSimple() bool {
-	return len(a.Title) == 0 && len(a.TitleLocKey) == 0 && len(a.TitleLocArgs) == 0 && len(a.LocKey) == 0 && len(a.LocArgs) == 0 && len(a.ActionLocKey) == 0 && len(a.LaunchImage) == 0
+// “The following payload has an aps dictionary with a simple,
+// recommended form for alert messages with the default alert buttons (Close and View).
+// It uses a string as the value of alert rather than a dictionary.
+// This payload also has a custom array property.
+/*
+{
+    "aps" : { "alert" : "Message received from Bob" },
+    "acme2" : [ "bang",  "whiz" ]
+}
+*/
+func (a *Alert) isSimpleForm() bool {
+	return len(a.Title) == 0 && len(a.TitleLocKey) == 0 && len(a.TitleLocArgs) == 0 && len(a.ActionLocKey) == 0 && len(a.LocKey) == 0 && len(a.LocArgs) == 0 && len(a.LaunchImage) == 0
 }
 
-func (a *Alert) isZero() bool {
-	return len(a.Body) == 0 && a.isSimple()
+// Returns bool if alert is valid
+func (a *Alert) isValid() bool {
+	return a.isSimpleForm() && len(a.Body) == 0
 }

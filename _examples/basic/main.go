@@ -17,15 +17,14 @@ func main() {
 
 	p := apns2.Payload{
 		Alert: apns2.Alert{
-			Body: "Hello world"},
+			Body: "Testing HTTP 2"},
 	}
 
-	b, err := json.Marshal(p.Map())
+	b, err := json.Marshal(p)
 	if err != nil {
 
 	}
 	fmt.Println(b)
-	fmt.Println(p.Map())
 
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
@@ -50,7 +49,7 @@ func main() {
 	}
 
 	// Send the Push Notification
-	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
+	resp, err := client.SendPush(b, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)

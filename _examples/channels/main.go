@@ -14,7 +14,7 @@ func main() {
 
 	payloads := [][]byte{}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 200; i++ {
 		message := fmt.Sprintf("Hello World %v!", i)
 		payload := []byte(`{ "aps" : { "alert" : "` + message + `" } }`)
 		payloads = append(payloads, payload)

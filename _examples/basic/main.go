@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -14,8 +15,21 @@ func main() {
 	var filename = "../certs/PushChatKey.p12"
 	var password = "pushchat"
 
+	p := apns2.Payload{
+		Alert: apns2.Alert{
+			Body: "Hello world"},
+	}
+
+	b, err := json.Marshal(p.Map())
+	if err != nil {
+
+	}
+	fmt.Println(b)
+	fmt.Println(p.Map())
+
 	// Setup payload must contains an aps root label and alert message
 	payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	fmt.Println(payload)
 
 	cert, key, err := certificate.ReadP12File(filename, password)
 	if err != nil {

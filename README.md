@@ -45,8 +45,9 @@ func main() {
 
 	fmt.Println(b)
 
-	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
-	//fmt.Println(payload)
+	// Or create []byte payload
+	// payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	// fmt.Println(payload)
 
 	cert, key, err := p12.ReadFile(filename, password)
 	if err != nil {

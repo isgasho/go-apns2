@@ -11,12 +11,6 @@ import (
 	"golang.org/x/net/http2"
 )
 
-// ErrorResponse contains reason, timestamp
-type ErrorResponse struct {
-	Reason    string `json:"reason,omitempty"`
-	Timestamp int64  `json:"timestamp,omitempty"`
-}
-
 // Client struct with HTTPClient, Certificate, Host as parameters.
 type Client struct {
 	HTTPClient  *http.Client

@@ -22,6 +22,7 @@ package main
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -34,12 +35,13 @@ func main() {
 	var filename = "../certs/PushChatKey.p12"
 	var password = "pushchat"
 
-	// Setup payload must contains an aps root label and alert message also remove the spaces from []byte decreases the payload size.
+	// Setup payload must contains an aps root label and alert message
 	payload := apns2.Payload{
 		Alert: apns2.Alert{
 			Body: "Testing HTTP 2"},
 	}
 
+	// Marshal the payload structure
 	b, err := json.Marshal(payload)
 	if err != nil {
 		log.Fatal(err)
@@ -47,22 +49,23 @@ func main() {
 
 	fmt.Println(b)
 
-	// Or create []byte payload
-	// payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
-	// fmt.Println(payload)
+	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	//fmt.Println(payload)
 
-	cert, key, err := p12.ReadFile(filename, password)
+	// Parse the certificate
+	cert, key, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Create the certificate
 	certificate := tls.Certificate{
 		Certificate: [][]byte{cert.Raw},
 		PrivateKey:  key,
 		Leaf:        cert,
 	}
 
-	// Setup a new http client
+	// Setup a new http client with Certificate and host environment (apns2.Development, apns2.Production)
 	client, err := apns2.NewClient(certificate, apns2.Development)
 
 	if err != nil {
@@ -70,14 +73,20 @@ func main() {
 	}
 
 	// Send the Push Notification
-	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
+	resp, err := client.SendPush(b, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// returns apns-id if request is success
-	// otherwise returns error reason
+	// Returns ApnsResponse struct
+	/*
+		type ApnsResponse struct {
+		StatusCode            int
+		StatusCodeDescription string
+		ApnsID                string `json:"apns-id,omitempty"`
+		Reason                string `json:"reason,omitempty"`
+	}*/
 	fmt.Println(resp)
 }
 ```

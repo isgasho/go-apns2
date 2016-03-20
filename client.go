@@ -6,17 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"golang.org/x/net/http2"
 )
-
-// ErrorResponse contains reason, timestamp
-type ErrorResponse struct {
-	Reason    string `json:"reason,omitempty"`
-	Timestamp int64  `json:"timestamp,omitempty"`
-}
 
 // Client struct with HTTPClient, Certificate, Host as parameters.
 type Client struct {
@@ -56,7 +49,7 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// Send headers to request

@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -22,15 +21,18 @@ func main() {
 	}
 
 	// Marshal the payload structure
-	b, err := json.Marshal(payload)
+	b, err := payload.MarshalJSON()
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(b)
 
-	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
-	//fmt.Println(payload)
+	// Simple create the payload as []byte.Omit whitespace and line breaks
+	// to reduce the size of the payload, improving network performance.
+	// payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	// fmt.Println(payload)
 
 	// Parse the certificate
 	cert, key, err := certificate.ReadP12File(filename, password)
@@ -45,7 +47,8 @@ func main() {
 		Leaf:        cert,
 	}
 
-	// Setup a new http client with Certificate and host environment (apns2.Development, apns2.Production)
+	// Setup a new http client with pass the Certificate
+	// and host environment (apns2.Development, apns2.Production)
 	client, err := apns2.NewClient(certificate, apns2.Development)
 
 	if err != nil {

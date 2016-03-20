@@ -189,6 +189,7 @@ func asyncHTTPPosts(payloads [][]byte) []*apns2.ApnsResponse {
 ## TODO
 - [ ] Error Handling
 - [ ] Payload Struct
+- [ ] Badge
 
 Author
 -----

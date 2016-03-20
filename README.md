@@ -55,7 +55,7 @@ func main() {
 
 	// Simple create the payload as []byte.Omit whitespace and line breaks
 	// to reduce the size of the payload, improving network performance.
-	// payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
+	// payload := []byte(`{"aps":{"alert":"Hello world"}}`)
 	// fmt.Println(payload)
 
 	// Parse the certificate

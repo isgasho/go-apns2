@@ -15,18 +15,19 @@ func main() {
 	var filename = "../certs/PushChatKey.p12"
 	var password = "pushchat"
 
-	p := apns2.Payload{
+	// Setup payload must contains an aps root label and alert message
+	payload := apns2.Payload{
 		Alert: apns2.Alert{
 			Body: "Testing HTTP 2"},
 	}
 
-	b, err := json.Marshal(p)
+	b, err := json.Marshal(payload)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Println(b)
 
-	// Setup payload must contains an aps root label and alert message
 	//payload := []byte(`{ "aps" : { "alert" : "Hello world" } }`)
 	//fmt.Println(payload)
 

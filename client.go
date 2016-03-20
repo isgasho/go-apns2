@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"golang.org/x/net/http2"
@@ -56,7 +55,7 @@ func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) 
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	// Send headers to request

@@ -180,6 +180,7 @@ func asyncHTTPPosts(payloads []apns2.Payload) []*apns2.ApnsResponse {
 - [ ] Error Handling
 - [ ] Payload Struct
 - [ ] Badge
+- [ ] Tests
 
 Author
 -----

@@ -18,6 +18,7 @@ func main() {
 	payload := apns2.Payload{
 		Alert: apns2.Alert{
 			Body: "Testing HTTP 2"},
+		Badge: 50,
 	}
 
 	// Marshal the payload structure

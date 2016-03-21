@@ -45,6 +45,10 @@ func (p *Payload) Map() map[string]interface{} {
 		}
 	}
 
+	if p.Badge != 0 {
+		payload["badge"] = p.Badge
+	}
+
 	if p.Sound != "" {
 		payload["sound"] = p.Sound
 	}

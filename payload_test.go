@@ -38,6 +38,18 @@ func TestPayload(t *testing.T) {
 			},
 			[]byte(`{"aps":{"alert":{"title":"My Title","body":"Hello APNS 2","loc-key":"GAME_PLAY_REQUEST_FORMAT","loc-args":["Jenna","Frank"]}}}`),
 		},
+		{
+			apns2.Payload{
+				Alert: apns2.Alert{
+					Title:   "My Title",
+					Body:    "Hello APNS 2",
+					LocKey:  "GAME_PLAY_REQUEST_FORMAT",
+					LocArgs: []string{"Jenna", "Frank"},
+				},
+				Badge: 2,
+			},
+			[]byte(`{"aps":{"alert":{"title":"My Title","body":"Hello APNS 2","loc-key":"GAME_PLAY_REQUEST_FORMAT","loc-args":["Jenna","Frank"]},"badge":2}}`),
+		},
 	}
 
 	for _, tt := range tests {

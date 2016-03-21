@@ -43,11 +43,16 @@ func NewClient(certificate tls.Certificate, host string) (*Client, error) {
 
 // SendPush a push notification with payload ([]byte), device token, *Headers
 // returns ApnsResponse struct
-func (c *Client) SendPush(payload []byte, deviceToken string, headers *Headers) (*ApnsResponse, error) {
+func (c *Client) SendPush(payload interface{}, deviceToken string, headers *Headers) (*ApnsResponse, error) {
+
+	b, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
 
 	url := fmt.Sprintf("%v/3/device/%v", c.Host, deviceToken)
 
-	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
+	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
 		return nil, err
 	}

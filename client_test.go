@@ -1,6 +1,7 @@
 package apns2_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -13,7 +14,11 @@ import (
 
 func TestPush(t *testing.T) {
 	deviceToken := "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
-	payload := []byte(`{ "aps" : { "alert" : "Hello World" } }`)
+	payload := apns2.Payload{
+		Alert: apns2.Alert{
+			Body: "Hello World"},
+	}
+
 	apnsID := "674EB1D5-7E7C-3DC9-B0F5-32A55E54960E"
 
 	handler := http.NewServeMux()
@@ -29,7 +34,13 @@ func TestPush(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(body, payload) {
+
+		b, err := json.Marshal(payload)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if !reflect.DeepEqual(body, b) {
 			t.Errorf("Expected body %v, got %v", payload, body)
 		}
 		w.Header().Set("apns-id", apnsID)

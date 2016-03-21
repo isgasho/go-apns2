@@ -18,17 +18,17 @@ func main() {
 	payload := apns2.Payload{
 		Alert: apns2.Alert{
 			Body: "Testing HTTP 2"},
-		Badge: 50,
+		Badge: 5,
 	}
 
 	// Marshal the payload structure
-	b, err := payload.MarshalJSON()
+	/*b, err := payload.MarshalJSON()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(b)
+	fmt.Println(b)*/
 
 	// Simple create the payload as []byte.Omit whitespace and line breaks
 	// to reduce the size of the payload, improving network performance.
@@ -57,7 +57,7 @@ func main() {
 	}
 
 	// Send the Push Notification
-	resp, err := client.SendPush(b, deviceToken, &apns2.Headers{})
+	resp, err := client.SendPush(payload, deviceToken, &apns2.Headers{})
 
 	if err != nil {
 		log.Fatal(err)

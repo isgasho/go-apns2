@@ -21,20 +21,6 @@ func main() {
 		Badge: 5,
 	}
 
-	// Marshal the payload structure
-	/*b, err := payload.MarshalJSON()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(b)*/
-
-	// Simple create the payload as []byte.Omit whitespace and line breaks
-	// to reduce the size of the payload, improving network performance.
-	// payload := []byte(`{"aps":{"alert":"Hello world"}}`)
-	// fmt.Println(payload)
-
 	// Parse the certificate
 	cert, key, err := certificate.ReadP12File(filename, password)
 	if err != nil {

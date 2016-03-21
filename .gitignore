@@ -1,0 +1,6 @@
+*.o
+*.a
+*.so
+c.out
+_example/certs/*/
+_example/certs/*.*

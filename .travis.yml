@@ -12,6 +12,8 @@ before_install:
 
 install:
   - bash gitcookie.sh
+  - go get -t
+  - go get golang.org/x/net/http2
 
 script:
   - go test -v 

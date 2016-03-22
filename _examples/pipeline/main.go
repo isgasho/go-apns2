@@ -10,14 +10,14 @@ import (
 	"github.com/sger/go-apns2/certificate"
 )
 
-var applicationStatus bool
+var status bool
 var payloads []apns2.Payload
 var payloadsProcessed int
 var totalPayloadCount int
 var apns []*apns2.ApnsResponse
 
 func main() {
-	applicationStatus = true
+	status = true
 	statusChannel := make(chan int)
 	payloadChannel := make(chan *apns2.ApnsResponse)
 	totalPayloadCount = 0
@@ -38,7 +38,7 @@ func main() {
 	go processPayloadResponses(payloadChannel)
 
 	for {
-		if applicationStatus == false {
+		if status == false {
 
 			for _, id := range apns {
 				fmt.Println(id)
@@ -55,7 +55,7 @@ func main() {
 
 			if payloadsProcessed == totalPayloadCount {
 				fmt.Println("Received all Payloads")
-				applicationStatus = false
+				status = false
 				close(statusChannel)
 				close(payloadChannel)
 			}
@@ -65,7 +65,7 @@ func main() {
 
 func sendPayloads(statusChannel chan int, payloadChannel chan *apns2.ApnsResponse) {
 	time.Sleep(time.Millisecond * 1)
-	fmt.Println("Grabbing ", len(payloads), "payloads")
+	fmt.Println("Sending", len(payloads), "payloads")
 
 	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
 	var filename = "../certs/PushChatKey.p12"

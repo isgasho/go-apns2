@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
+
 # go-apns2
 	This project is under development
 

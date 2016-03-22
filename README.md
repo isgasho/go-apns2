@@ -19,7 +19,7 @@ $ ./basic
 
 ## Usage
 
-# Simple example
+## Simple example
 
 ```go
 package main
@@ -85,7 +85,7 @@ func main() {
 }
 ```
 
-# Goroutines and channels example
+## Goroutines and channels example
 
 ```go
 package main

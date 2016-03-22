@@ -6,7 +6,7 @@ import "encoding/json"
 // This dictionary must contain another dictionary identified by the aps key. The aps
 // dictionary can contain one or more properties that specify the following user
 // notification types: An alert message to display to the user A number
-// to badge the app icon with A sound to play
+// to badge the app icon with A sound to play.
 type Payload struct {
 	// If this property is included, the system displays a standard alert or a banner, based on the user’s setting.
 	Alert Alert
@@ -64,7 +64,7 @@ func (p *Payload) Map() map[string]interface{} {
 	return map[string]interface{}{"aps": payload}
 }
 
-// MarshalJSON returns []byte
+// MarshalJSON returns []byte, error
 func (p Payload) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p.Map())
 }

@@ -19,13 +19,13 @@ func TestHeaders(t *testing.T) {
 	requestHeader := http.Header{}
 	headers.Set(requestHeader)
 
-	testHeader(t, requestHeader, "apns-id", headers.ID)
-	testHeader(t, requestHeader, "apns-expiration", "1458565017")
-	testHeader(t, requestHeader, "apns-priority", "5")
-	testHeader(t, requestHeader, "apns-topic", headers.Topic)
+	testRequestHeader(t, requestHeader, "apns-id", headers.ID)
+	testRequestHeader(t, requestHeader, "apns-expiration", "1458565017")
+	testRequestHeader(t, requestHeader, "apns-priority", "5")
+	testRequestHeader(t, requestHeader, "apns-topic", headers.Topic)
 }
 
-func testHeader(t *testing.T, requestHeader http.Header, key string, expected string) {
+func testRequestHeader(t *testing.T, requestHeader http.Header, key string, expected string) {
 	headerKey := requestHeader.Get(key)
 	if headerKey != expected {
 		t.Errorf("Expected %s %q, got %q.", key, expected, headerKey)

@@ -13,16 +13,16 @@ import (
 var status bool
 var payloads []apns2.Payload
 var payloadsProcessed int
-var totalPayloadCount int
+var totalPayloads int
 var apns []*apns2.ApnsResponse
 
 func main() {
 	status = true
 	statusChannel := make(chan int)
 	payloadChannel := make(chan *apns2.ApnsResponse)
-	totalPayloadCount = 0
+	totalPayloads = 0
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1000; i++ {
 		message := fmt.Sprintf("Hello World %v!", i)
 		payload := apns2.Payload{
 			Alert: apns2.Alert{
@@ -32,28 +32,24 @@ func main() {
 	}
 
 	payloadsProcessed = 0
-	totalPayloadCount = len(payloads)
+	totalPayloads = len(payloads)
 
 	go sendPayloads(statusChannel, payloadChannel)
 	go processPayloadResponses(payloadChannel)
 
 	for {
 		if status == false {
-
 			for _, id := range apns {
 				fmt.Println(id)
 			}
-
-			fmt.Println("Done sending ", totalPayloadCount, " payloads")
+			fmt.Println("Done sending ", totalPayloads, " payloads")
 			break
 		}
 		select {
 		case sC := <-statusChannel:
 			fmt.Println("Payload received on StatusChannel", sC)
-
 			payloadsProcessed++
-
-			if payloadsProcessed == totalPayloadCount {
+			if payloadsProcessed == totalPayloads {
 				fmt.Println("Received all Payloads")
 				status = false
 				close(statusChannel)
@@ -89,15 +85,12 @@ func sendPayloads(statusChannel chan int, payloadChannel chan *apns2.ApnsRespons
 		log.Fatal(err)
 	}
 
-	for i := 0; i < totalPayloadCount; i++ {
-
+	for i := 0; i < totalPayloads; i++ {
 		fmt.Println("sending payload ", i, payloads[i])
-
 		resp, err := client.SendPush(payloads[i], deviceToken, &apns2.Headers{})
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		payloadChannel <- resp
 		statusChannel <- 0
 	}

@@ -2,6 +2,7 @@ language: go
 
 go:
    - 1.6
+   - tip
 
 before_install:
   # Decrypts a script that installs an authenticated cookie
@@ -16,4 +17,5 @@ install:
   - go get golang.org/x/net/http2
 
 script:
+  - go vet
   - go test -v 

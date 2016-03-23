@@ -17,6 +17,13 @@ $ go build
 $ ./basic
 ```
 
+## Documentation
+
+```sh
+$ godoc .
+$ godoc -http=:6060
+```
+
 ## Usage
 
 ## Simple example

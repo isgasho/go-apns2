@@ -58,10 +58,18 @@ func TestPayload(t *testing.T) {
 }
 
 func testPayload(t *testing.T, p interface{}, expected []byte) {
+
+	payloadSize := 256
+
 	b, err := json.Marshal(p)
 	if err != nil {
 		t.Fatal("Error", err)
 	}
+
+	if len(b) > payloadSize {
+		t.Errorf("Expected payload to be less than %v instead sent %v", payloadSize, len(b))
+	}
+
 	if !reflect.DeepEqual(b, expected) {
 		t.Errorf("Expected %s, got %s", expected, b)
 	}

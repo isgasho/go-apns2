@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
-
+[![GoDoc](https://godoc.org/github.com/apex/apex?status.svg)](https://godoc.org/github.com/sger/go-apns2)
 # Go Apns2
 	This project is under development
 

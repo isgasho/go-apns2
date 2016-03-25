@@ -22,6 +22,7 @@ func main() {
 	payloadChannel := make(chan *apns2.ApnsResponse)
 	totalPayloads = 0
 
+	// Creating 1000 payloads
 	for i := 0; i < 1000; i++ {
 		message := fmt.Sprintf("Hello World %v!", i)
 		payload := apns2.Payload{
@@ -34,6 +35,7 @@ func main() {
 	payloadsProcessed = 0
 	totalPayloads = len(payloads)
 
+	// goroutines
 	go sendPayloads(statusChannel, payloadChannel)
 	go processPayloadResponses(payloadChannel)
 

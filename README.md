@@ -210,6 +210,7 @@ func processPayloadResponses(payloadChannel chan *apns2.ApnsResponse) {
 - [ ] Error Handling
 - [ ] Pem Support
 - [ ] Tests
+- [ ] Support for Feedback service
 
 Author
 -----
@@ -222,5 +223,5 @@ __Spiros Gerokostas__
 License
 -----
 
-go-apns2 is available under the MIT license. See the LICENSE file for more info.
+Go Apns2 is available under the MIT license. See the LICENSE file for more info.
 

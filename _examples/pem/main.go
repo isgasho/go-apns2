@@ -15,10 +15,8 @@ func main() {
 
 	cert, err := certificate.ReadPemFile(pemFilename, password)
 	if err != nil {
-		log.Fatal("!!!!!! ", err)
+		log.Fatal(err)
 	}
-
-	fmt.Println(cert)
 
 	// Setup payload must contains an aps root label and alert message
 	payload := apns2.Payload{

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 
@@ -22,21 +21,14 @@ func main() {
 	}
 
 	// Parse the certificate
-	cert, key, err := certificate.ReadP12File(filename, password)
+	cert, err := certificate.ReadP12File2(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Create the certificate
-	certificate := tls.Certificate{
-		Certificate: [][]byte{cert.Raw},
-		PrivateKey:  key,
-		Leaf:        cert,
-	}
-
 	// Setup a new http client with pass the Certificate
 	// and host environment (apns2.Development, apns2.Production)
-	client, err := apns2.NewClient(certificate, apns2.Development)
+	client, err := apns2.NewClient(cert, apns2.Development)
 
 	if err != nil {
 		log.Fatal(err)

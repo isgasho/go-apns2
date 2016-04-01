@@ -207,9 +207,9 @@ func processPayloadResponses(payloadChannel chan *apns2.ApnsResponse) {
 ```
 
 ## TODO
-- [ ] Error Handling
 - [x] Pem Support
 - [x] Tests
+- [ ] Error Handling
 - [ ] Support for Feedback service
 
 Author

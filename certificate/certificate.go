@@ -67,6 +67,53 @@ func ReadP12File(filename string, password string) (*x509.Certificate, *rsa.Priv
 	return cert, priv, nil
 }
 
+// ReadP12File2 reading a .p12 file
+func ReadP12File2(filename string, password string) (tls.Certificate, error) {
+	file, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return tls.Certificate{}, fmt.Errorf("Error while loading %s: %v", filename, err)
+	}
+
+	// Decode the certification
+	privateKey, cert, err := pkcs12.Decode(file, password)
+	if err != nil {
+		return tls.Certificate{}, err
+	}
+
+	// Verify the certification
+	_, err = cert.Verify(x509.VerifyOptions{})
+	if err == nil {
+		return tls.Certificate{}, err
+	}
+
+	switch e := err.(type) {
+	case x509.CertificateInvalidError:
+		switch e.Reason {
+		case x509.Expired:
+			// TODO Better support for error
+		default:
+		}
+	case x509.UnknownAuthorityError:
+		// TODO Better support for error
+	default:
+	}
+
+	// check if private key is correct
+	priv, b := privateKey.(*rsa.PrivateKey)
+	if !b {
+		return tls.Certificate{}, fmt.Errorf("Error with private key")
+	}
+
+	certificate := tls.Certificate{
+		Certificate: [][]byte{cert.Raw},
+		PrivateKey:  priv,
+		Leaf:        cert,
+	}
+
+	//return cert, priv, nil
+	return certificate, nil
+}
+
 // ReadPemFile parse .pem file returns tls.Certificate, error
 func ReadPemFile(filename string, password string) (tls.Certificate, error) {
 

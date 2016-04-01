@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 	"time"
@@ -41,19 +40,13 @@ func asyncHTTPPosts(payloads []apns2.Payload) []*apns2.ApnsResponse {
 	ch := make(chan *apns2.ApnsResponse)
 	responses := []*apns2.ApnsResponse{}
 
-	cert, key, err := certificate.ReadP12File(filename, password)
+	cert, err := certificate.ReadP12File2(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	certificate := tls.Certificate{
-		Certificate: [][]byte{cert.Raw},
-		PrivateKey:  key,
-		Leaf:        cert,
-	}
-
 	// Setup a new http client
-	client, err := apns2.NewClient(certificate, apns2.Development)
+	client, err := apns2.NewClient(cert, apns2.Development)
 
 	if err != nil {
 		log.Fatal(err)

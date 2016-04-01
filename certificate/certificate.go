@@ -12,29 +12,20 @@ import (
 	"golang.org/x/crypto/pkcs12"
 )
 
-// BlockType is a PEM block type.
+// BlockType PEM formatted block (certificate, private key etc)
 type BlockType string
 
-// String satisfies the string interface for a block type.
 func (bt BlockType) String() string {
 	return string(bt)
 }
 
+// Type of BlockType
 const (
-	// PrivateKey is the "PRIVATE KEY" block type.
-	PrivateKey BlockType = "PRIVATE KEY"
-
-	// PublicKey is the "PUBLIC KEY" block type.
-	PublicKey BlockType = "PUBLIC KEY"
-
-	// RSAPrivateKey is the "RSA PRIVATE KEY" block type.
+	PrivateKey    BlockType = "PRIVATE KEY"
+	PublicKey     BlockType = "PUBLIC KEY"
 	RSAPrivateKey BlockType = "RSA PRIVATE KEY"
-
-	// ECPrivateKey is the "EC PRIVATE KEY" block type.
-	ECPrivateKey BlockType = "EC PRIVATE KEY"
-
-	// Certificate is the "CERTIFICATE" block type.
-	Certificate BlockType = "CERTIFICATE"
+	ECPrivateKey  BlockType = "EC PRIVATE KEY"
+	Certificate   BlockType = "CERTIFICATE"
 )
 
 // ReadP12File reading a .p12 file

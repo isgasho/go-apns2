@@ -76,6 +76,7 @@ func ReadP12File(filename string, password string) (*x509.Certificate, *rsa.Priv
 	return cert, priv, nil
 }
 
+// ReadPemFile parse .pem file returns tls.Certificate, error
 func ReadPemFile(filename string, password string) (tls.Certificate, error) {
 
 	var certification tls.Certificate

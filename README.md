@@ -208,8 +208,8 @@ func processPayloadResponses(payloadChannel chan *apns2.ApnsResponse) {
 
 ## TODO
 - [ ] Error Handling
-- [ ] Pem Support
-- [ ] Tests
+- [x] Pem Support
+- [x] Tests
 - [ ] Support for Feedback service
 
 Author

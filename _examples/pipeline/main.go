@@ -68,7 +68,7 @@ func sendPayloads(statusChannel chan int, payloadChannel chan *apns2.ApnsRespons
 	var filename = "../certs/PushChatKey.p12"
 	var password = "pushchat"
 
-	cert, err := certificate.ReadP12File2(filename, password)
+	cert, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}

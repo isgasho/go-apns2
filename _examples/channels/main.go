@@ -40,7 +40,7 @@ func asyncHTTPPosts(payloads []apns2.Payload) []*apns2.ApnsResponse {
 	ch := make(chan *apns2.ApnsResponse)
 	responses := []*apns2.ApnsResponse{}
 
-	cert, err := certificate.ReadP12File2(filename, password)
+	cert, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}

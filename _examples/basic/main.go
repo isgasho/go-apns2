@@ -21,7 +21,7 @@ func main() {
 	}
 
 	// Parse the certificate
-	cert, err := certificate.ReadP12File2(filename, password)
+	cert, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}

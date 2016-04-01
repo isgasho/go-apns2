@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
-[![GoDoc](https://godoc.org/github.com/apex/apex?status.svg)](https://godoc.org/github.com/sger/go-apns2)
+[![GoDoc](https://godoc.org/github.com/sger/go-apns2?status.svg)](https://godoc.org/github.com/sger/go-apns2)
 # Go Apns2
 	This project is under development
 
@@ -32,7 +32,6 @@ $ godoc -http=:6060
 package main
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 
@@ -53,21 +52,14 @@ func main() {
 	}
 
 	// Parse the certificate
-	cert, key, err := certificate.ReadP12File(filename, password)
+	cert, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Create the certificate
-	certificate := tls.Certificate{
-		Certificate: [][]byte{cert.Raw},
-		PrivateKey:  key,
-		Leaf:        cert,
-	}
-
 	// Setup a new http client with pass the Certificate
 	// and host environment (apns2.Development, apns2.Production)
-	client, err := apns2.NewClient(certificate, apns2.Development)
+	client, err := apns2.NewClient(cert, apns2.Development)
 
 	if err != nil {
 		log.Fatal(err)
@@ -98,7 +90,6 @@ func main() {
 package main
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 	"time"
@@ -166,19 +157,13 @@ func sendPayloads(statusChannel chan int, payloadChannel chan *apns2.ApnsRespons
 	var filename = "../certs/PushChatKey.p12"
 	var password = "pushchat"
 
-	cert, key, err := certificate.ReadP12File(filename, password)
+	cert, err := certificate.ReadP12File(filename, password)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	certificate := tls.Certificate{
-		Certificate: [][]byte{cert.Raw},
-		PrivateKey:  key,
-		Leaf:        cert,
-	}
-
 	// Setup a new http client
-	client, err := apns2.NewClient(certificate, apns2.Development)
+	client, err := apns2.NewClient(cert, apns2.Development)
 
 	if err != nil {
 		log.Fatal(err)
@@ -203,7 +188,6 @@ func processPayloadResponses(payloadChannel chan *apns2.ApnsResponse) {
 		}
 	}
 }
-
 ```
 
 ## TODO

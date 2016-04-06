@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Headers request headers for apple push notification
+// Headers Request headers for apple push notification
 type Headers struct {
 	ID          string
 	Expiration  time.Time
@@ -14,7 +14,7 @@ type Headers struct {
 	Topic       string
 }
 
-// Set request headers
+// Set request headers for HTTPClient
 func (h *Headers) Set(header http.Header) {
 
 	header.Set("Content-Type", "application/json")

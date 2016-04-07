@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/sger/go-apns2.svg?branch=master)](https://travis-ci.org/sger/go-apns2)
 [![GoDoc](https://godoc.org/github.com/sger/go-apns2?status.svg)](https://godoc.org/github.com/sger/go-apns2)
+[![Coverage Status](https://coveralls.io/repos/github/sger/go-apns2/badge.svg?branch=master)](https://coveralls.io/github/sger/go-apns2?branch=master)
 # Go Apns2
 	This project is under development
 

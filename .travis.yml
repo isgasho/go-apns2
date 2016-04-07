@@ -19,6 +19,9 @@ install:
   - go get -t
   - go get golang.org/x/net/http2
 
+os:
+ - linux
+
 script:
   - go vet
   - go test -v

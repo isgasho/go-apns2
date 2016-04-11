@@ -5,6 +5,9 @@ go:
   - tip
 
 before_install:
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
+  - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
   # Decrypts a script that installs an authenticated cookie
   # for git to use when cloning from googlesource.com.
   # Bypasses "bandwidth limit exceeded" errors.
@@ -18,4 +21,5 @@ install:
 
 script:
   - go vet
-  - go test -v 
+  - go test -v
+  - $HOME/gopath/bin/goveralls -service=travis-ci 

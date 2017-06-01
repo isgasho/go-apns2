@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	var deviceToken = "c7800a79efffe8ffc01b280717a936937cb69f8ca307545eb6983c60f12e167a"
-	var filename = "../certs/PushChatKey.p12"
-	var password = "pushchat"
+	var deviceToken = "734f6b32a73409c5ae05129cdcbbdaaad188ebedfe2692f0e048a5887614ade8"
+	var filename = "../certs/GoPushNotifications.p12"
+	var password = "GoPushNotifications"
 
 	// Setup payload must contains an aps root label and alert message
 	payload := apns2.Payload{
